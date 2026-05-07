@@ -1,7 +1,6 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using HotAvalonia;
 
 namespace ShadUI.Demo;
 
@@ -15,7 +14,6 @@ public partial class MainWindow : Window
         Initialize();
     }
 
-    [AvaloniaHotReload]
     private void Initialize()
     {
         ToolTip.SetTip(FullscreenButton, "Fullscreen");

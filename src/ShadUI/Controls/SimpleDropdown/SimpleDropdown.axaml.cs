@@ -160,14 +160,14 @@ public class SimpleDropdown : ItemsControl
 
     private void DetachEventHandlers()
     {
-        if (this.GetTemplateChildren().FirstOrDefault(x => x.Name == "PART_BorderContainer") is Border rootBorder)
+        if (this.GetTemplateDescendants().FirstOrDefault(x => x.Name == "PART_BorderContainer") is Border rootBorder)
         {
             rootBorder.PointerPressed -= OnRootBorderPressed;
             rootBorder.PointerReleased -= OnRootBorderReleased;
             rootBorder.PointerCaptureLost -= OnRootBorderCaptureLost;
         }
 
-        if (this.GetTemplateChildren().FirstOrDefault(x => x.Name == "PART_ItemsPresenter") is ItemsPresenter
+        if (this.GetTemplateDescendants().FirstOrDefault(x => x.Name == "PART_ItemsPresenter") is ItemsPresenter
             itemsPresenter)
         {
             itemsPresenter.AttachedToVisualTree -= OnItemsPresenterAttached;
@@ -264,21 +264,21 @@ public class SimpleDropdown : ItemsControl
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
-        // Use GetTemplateChildren for OnLoaded since we don't have access to a proper INameScope
-        if (this.GetTemplateChildren().FirstOrDefault(x => x.Name == "PART_BorderContainer") is Border rootBorder)
+        // Use GetTemplateDescendants for OnLoaded since we don't have access to a proper INameScope
+        if (this.GetTemplateDescendants().FirstOrDefault(x => x.Name == "PART_BorderContainer") is Border rootBorder)
         {
             rootBorder.PointerPressed += OnRootBorderPressed;
             rootBorder.PointerReleased += OnRootBorderReleased;
             rootBorder.PointerCaptureLost += OnRootBorderCaptureLost;
         }
 
-        if (this.GetTemplateChildren().FirstOrDefault(x => x.Name == "PART_ItemsPresenter") is ItemsPresenter
+        if (this.GetTemplateDescendants().FirstOrDefault(x => x.Name == "PART_ItemsPresenter") is ItemsPresenter
             itemsPresenter)
         {
             itemsPresenter.AttachedToVisualTree += OnItemsPresenterAttached;
         }
 
-        if (this.GetTemplateChildren().FirstOrDefault(x => x.Name == "PART_Border") is Border popupBorder)
+        if (this.GetTemplateDescendants().FirstOrDefault(x => x.Name == "PART_Border") is Border popupBorder)
         {
             popupBorder.PointerPressed += OnPopupBorderPressed;
         }

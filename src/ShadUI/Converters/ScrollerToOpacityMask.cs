@@ -13,29 +13,39 @@ namespace ShadUI;
 /// </summary>
 /// <remarks>
 ///     This converter is used to create gradient opacity masks for scrollable content areas.
-///     It compares two double values and returns an appropriate gradient brush based on the comparison.
+///     It inspects ScrollViewer Offset/Extent/Viewport values and returns an appropriate gradient brush.
 /// </remarks>
 public class ScrollerToOpacityMask : IMultiValueConverter
 {
-    private readonly Func<double, double, IBrush?> _func;
+    private readonly Func<IList<object?>, IBrush?> _func;
 
     /// <summary>
     ///     Gets the top mask instance for creating fade-out effects at the top of scrollable content.
     /// </summary>
     /// <remarks>
-    ///     This instance creates a gradient that fades from transparent at the top to opaque at the bottom.
-    ///     It's typically used when content can be scrolled up.
+    ///     Expects a single bound value: ScrollViewer.Offset (Vector).
+    ///     Returns the top fade brush when scrolled down from the top, otherwise an opaque white brush.
     /// </remarks>
-    public static ScrollerToOpacityMask Top { get; } = new((x, y) => x > y ? TopBrush : Brushes.White);
+    public static ScrollerToOpacityMask Top { get; } = new(values =>
+        values.Count >= 1 && values[0] is Vector offset && offset.Y > 0
+            ? TopBrush
+            : Brushes.White);
 
     /// <summary>
     ///     Gets the bottom mask instance for creating fade-out effects at the bottom of scrollable content.
     /// </summary>
     /// <remarks>
-    ///     This instance creates a gradient that fades from opaque at the top to transparent at the bottom.
-    ///     It's typically used when content can be scrolled down.
+    ///     Expects three bound values: ScrollViewer.Offset (Vector), Extent (Size), Viewport (Size).
+    ///     Returns the bottom fade brush when not yet at the bottom, otherwise an opaque white brush.
     /// </remarks>
-    public static ScrollerToOpacityMask Bottom { get; } = new((x, y) => x < y ? BottomBrush : Brushes.White);
+    public static ScrollerToOpacityMask Bottom { get; } = new(values =>
+        values.Count >= 3
+        && values[0] is Vector offset
+        && values[1] is Size extent
+        && values[2] is Size viewport
+        && offset.Y < extent.Height - viewport.Height
+            ? BottomBrush
+            : Brushes.White);
 
     /// <summary>
     ///     The bottom gradient brush that fades from opaque to transparent.
@@ -68,30 +78,17 @@ public class ScrollerToOpacityMask : IMultiValueConverter
     /// <summary>
     ///     Initializes a new instance of the <see cref="ScrollerToOpacityMask" /> class.
     /// </summary>
-    /// <param name="func">The function that determines which brush to return based on scroll values.</param>
-    public ScrollerToOpacityMask(Func<double, double, IBrush?> func)
+    /// <param name="func">The function that determines which brush to return based on the bound values.</param>
+    public ScrollerToOpacityMask(Func<IList<object?>, IBrush?> func)
     {
         _func = func;
     }
 
     /// <summary>
-    ///     Converts the value of the scroller to an opacity mask.
+    ///     Converts the bound ScrollViewer values to an opacity mask.
     /// </summary>
-    /// <param name="values">The array of values to convert. Expects two double values representing scroll positions.</param>
-    /// <param name="targetType">The type of the binding target property.</param>
-    /// <param name="parameter">The converter parameter to use.</param>
-    /// <param name="culture">The culture to use in the converter.</param>
-    /// <returns>A gradient brush for the opacity mask, or null if conversion fails.</returns>
-    /// <remarks>
-    ///     The converter expects exactly two double values in the values array.
-    ///     The first value is typically the current scroll position, and the second is the maximum scroll position.
-    ///     Based on the comparison of these values, it returns an appropriate gradient brush for the opacity mask.
-    /// </remarks>
     public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (values.Count != 2) return null;
-        if (values[0] is not double valOne) return null;
-        if (values[1] is not double valTwo) return null;
-        return _func(valOne, valTwo);
+        return _func(values);
     }
 }

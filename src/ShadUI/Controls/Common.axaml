@@ -60,17 +60,17 @@
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 Name="watermark"
                                 Opacity="0.5"
-                                Text="{TemplateBinding Watermark}"
+                                Text="{TemplateBinding PlaceholderText}"
                                 TextAlignment="{TemplateBinding TextAlignment}"
                                 TextWrapping="{TemplateBinding TextWrapping}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <TextBlock.IsVisible>
                                     <MultiBinding Converter="{x:Static BoolConverters.And}">
-                                        <CompiledBinding
+                                        <Binding
                                             Converter="{x:Static StringConverters.IsNullOrEmpty}"
                                             ElementName="PART_TextPresenter"
                                             Path="PreeditText" />
-                                        <CompiledBinding
+                                        <Binding
                                             Converter="{x:Static StringConverters.IsNullOrEmpty}"
                                             Path="Text"
                                             RelativeSource="{RelativeSource TemplatedParent}" />

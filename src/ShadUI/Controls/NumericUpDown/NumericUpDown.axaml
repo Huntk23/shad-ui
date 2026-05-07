@@ -41,17 +41,17 @@
                                 Margin="{TemplateBinding Padding}"
                                 Name="Watermark"
                                 Opacity="0.5"
-                                Text="{TemplateBinding Watermark}"
+                                Text="{TemplateBinding PlaceholderText}"
                                 TextAlignment="{TemplateBinding TextAlignment}"
                                 TextWrapping="{TemplateBinding TextWrapping}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <TextBlock.IsVisible>
                                     <MultiBinding Converter="{x:Static BoolConverters.And}">
-                                        <CompiledBinding
+                                        <Binding
                                             Converter="{x:Static StringConverters.IsNullOrEmpty}"
                                             ElementName="PART_TextPresenter"
                                             Path="PreeditText" />
-                                        <CompiledBinding
+                                        <Binding
                                             Converter="{x:Static StringConverters.IsNullOrEmpty}"
                                             Path="Text"
                                             RelativeSource="{RelativeSource TemplatedParent}" />
@@ -169,7 +169,7 @@
                                     TextWrapping="NoWrap"
                                     Theme="{StaticResource InnerTextBoxTheme}"
                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Watermark="{TemplateBinding Watermark}" />
+                                    PlaceholderText="{TemplateBinding PlaceholderText}" />
                             </ButtonSpinner>
                             <TextBlock
                                 Classes="Caption Muted"

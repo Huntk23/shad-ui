@@ -88,16 +88,16 @@ is use for x:TypeArguments="system:Double" DO NOT REMOVE -->
         <Style Selector="^ /template/ Panel#InnerPanel">
             <Setter Property="OpacityMask">
                 <MultiBinding Converter="{x:Static shadui:ScrollerToOpacityMask.Top}">
-                    <Binding Path="$parent[Panel].Children[2].Children[0].Value" />
-                    <Binding Path="$parent[Panel].Children[2].Children[0].Minimum" />
+                    <Binding Path="Offset" RelativeSource="{RelativeSource TemplatedParent}" />
                 </MultiBinding>
             </Setter>
         </Style>
         <Style Selector="^ /template/ ScrollContentPresenter#PART_ContentPresenter">
             <Setter Property="OpacityMask">
                 <MultiBinding Converter="{x:Static shadui:ScrollerToOpacityMask.Bottom}">
-                    <Binding Path="$parent[Panel;1].Children[2].Children[0].Value" />
-                    <Binding Path="$parent[Panel;1].Children[2].Children[0].Maximum" />
+                    <Binding Path="Offset" RelativeSource="{RelativeSource TemplatedParent}" />
+                    <Binding Path="Extent" RelativeSource="{RelativeSource TemplatedParent}" />
+                    <Binding Path="Viewport" RelativeSource="{RelativeSource TemplatedParent}" />
                 </MultiBinding>
             </Setter>
         </Style>

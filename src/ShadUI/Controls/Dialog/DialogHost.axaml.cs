@@ -259,7 +259,7 @@ public class DialogHost : TemplatedControl, IDisposable
         manager.AllowDismissChanged -= AllowDismissChanged;
     }
 
-    private void ManagerOnDialogShown(object sender, DialogShownEventArgs e)
+    private void ManagerOnDialogShown(object? sender, DialogShownEventArgs e)
     {
         if (Manager is null || Owner is null) return;
 
@@ -274,7 +274,7 @@ public class DialogHost : TemplatedControl, IDisposable
         Owner.HasOpenDialog = true;
     }
 
-    private async void ManagerOnDialogClosed(object sender, DialogClosedEventArgs e)
+    private async void ManagerOnDialogClosed(object? sender, DialogClosedEventArgs e)
     {
         try
         {
@@ -296,7 +296,7 @@ public class DialogHost : TemplatedControl, IDisposable
         }
     }
 
-    private void AllowDismissChanged(object sender, bool e)
+    private void AllowDismissChanged(object? sender, bool e)
     {
         if (Manager is null || Manager.Dialogs.Count == 0) return;
 

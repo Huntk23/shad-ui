@@ -1,6 +1,5 @@
 ﻿using System;
 using Avalonia.Media;
-using Avalonia.Platform;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore;
@@ -16,10 +15,8 @@ public sealed partial class DashboardViewModel : ViewModelBase, INavigable
     private readonly PageManager _pageManager;
     public ThemeWatcher ThemeWatcher { get; }
 
-    private readonly SKTypeface _typeface;
-
     [ObservableProperty]
-    private static SolidColorPaint _tooltipTextPaint = null!;
+    private static SolidColorPaint _tooltipTextPaint = new(SKColors.Black);
 
     public DashboardViewModel(PageManager pageManager, ThemeWatcher themeWatcher)
     {
@@ -31,24 +28,12 @@ public sealed partial class DashboardViewModel : ViewModelBase, INavigable
             UpdateSeriesFill(colors.PrimaryColor);
         };
 
-        var fontUri = new Uri("avares://shadui-app/Assets/Fonts/Manrope-Regular.ttf");
-        var fontAsset = AssetLoader.Open(fontUri);
-
-        using var skData = SKData.Create(fontAsset);
-        _typeface = SKTypeface.FromData(skData);
-
-        _tooltipTextPaint = new SolidColorPaint
-        {
-            Color = SKColors.Black,
-            SKTypeface = _typeface
-        };
-
         XAxes =
         [
             new Axis
             {
                 Labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                LabelsPaint = new SolidColorPaint { Color = SKColors.Gray, SKTypeface = _typeface },
+                LabelsPaint = new SolidColorPaint(SKColors.Gray),
                 TextSize = 12,
                 MinStep = 1
             }
@@ -59,7 +44,7 @@ public sealed partial class DashboardViewModel : ViewModelBase, INavigable
             new Axis
             {
                 Labeler = Labelers.Currency,
-                LabelsPaint = new SolidColorPaint { Color = SKColors.Gray, SKTypeface = _typeface },
+                LabelsPaint = new SolidColorPaint(SKColors.Gray),
                 TextSize = 12,
                 MinStep = 1500,
                 ShowSeparatorLines = false
@@ -87,14 +72,8 @@ public sealed partial class DashboardViewModel : ViewModelBase, INavigable
             colors.ForegroundColor.B,
             colors.ForegroundColor.A);
 
-        var foregroundPaint = new SolidColorPaint
-        {
-            Color = foreground,
-            SKTypeface = _typeface
-        };
-
-        XAxes[0].LabelsPaint = foregroundPaint;
-        YAxes[0].LabelsPaint = foregroundPaint;
+        XAxes[0].LabelsPaint = new SolidColorPaint(foreground);
+        YAxes[0].LabelsPaint = new SolidColorPaint(foreground);
     }
 
     public ISeries[] Series { get; set; } =

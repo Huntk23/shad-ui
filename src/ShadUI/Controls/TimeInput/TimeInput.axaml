@@ -135,7 +135,7 @@
                                         Text="{TemplateBinding HourString,
                                                                Mode=TwoWay}"
                                         Theme="{StaticResource InputBoxTheme}"
-                                        Watermark="hh"
+                                        PlaceholderText="hh"
                                         shadui:ElementAssist.FocusOnLoad="{TemplateBinding shadui:ElementAssist.FocusOnLoad}" />
                                     <TextBlock
                                         FontSize="18"
@@ -151,7 +151,7 @@
                                         Text="{TemplateBinding MinuteString,
                                                                Mode=TwoWay}"
                                         Theme="{StaticResource InputBoxTheme}"
-                                        Watermark="mm" />
+                                        PlaceholderText="mm" />
                                     <TextBlock
                                         FontSize="18"
                                         Grid.Column="3"
@@ -168,7 +168,7 @@
                                         Text="{TemplateBinding SecondString,
                                                                Mode=TwoWay}"
                                         Theme="{StaticResource InputBoxTheme}"
-                                        Watermark="ss" />
+                                        PlaceholderText="ss" />
                                     <ToggleButton
                                         Grid.Column="5"
                                         IsVisible="{TemplateBinding ClockIdentifier,
@@ -191,7 +191,7 @@
             </ControlTemplate>
         </Setter>
         <Style Selector="^[ClockIdentifier=24HourClock] /template/ TextBox#PART_HourTextBox">
-            <Setter Property="Watermark" Value="HH" />
+            <Setter Property="PlaceholderText" Value="HH" />
         </Style>
         <Style Selector="^[InputFocus=True]">
             <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}" />

@@ -4,7 +4,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 
 // ReSharper disable once CheckNamespace
 namespace ShadUI;
@@ -167,12 +166,12 @@ public class ElementAssist
 
         return;
 
-        void HandleLostFocus(object? sender, RoutedEventArgs args)
+        void HandleLostFocus(object? sender, FocusChangedEventArgs args)
         {
             parent.Tag = "inactive";
         }
 
-        void HandleGotFocus(object? sender, GotFocusEventArgs args)
+        void HandleGotFocus(object? sender, FocusChangedEventArgs args)
         {
             parent.Tag = "active";
         }
@@ -197,8 +196,8 @@ public class ElementAssist
     private class FocusHandlers
     {
         public Control? Child { get; set; }
-        public EventHandler<GotFocusEventArgs>? GotFocusHandler { get; set; }
-        public EventHandler<RoutedEventArgs>? LostFocusHandler { get; set; }
+        public EventHandler<FocusChangedEventArgs>? GotFocusHandler { get; set; }
+        public EventHandler<FocusChangedEventArgs>? LostFocusHandler { get; set; }
     }
 
     // Private attached property to store event handlers
