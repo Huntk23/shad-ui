@@ -30,7 +30,6 @@
     <shadui:Window.Hosts>
         <shadui:DialogHost
             Manager="{Binding DialogManager}"
-            Owner="{Binding RelativeSource={RelativeSource AncestorType=shadui:Window}}"
             x:Name="PART_DialogHost" />
     </shadui:Window.Hosts>
     <shadui:Window.RightWindowTitleBarContent>
