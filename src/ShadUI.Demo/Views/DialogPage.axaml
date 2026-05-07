@@ -7,6 +7,7 @@
     xmlns:controls="clr-namespace:ShadUI.Demo.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shadui="clr-namespace:ShadUI;assembly=ShadUI"
     xmlns:viewModels="clr-namespace:ShadUI.Demo.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <DockPanel LastChildFill="True">
@@ -155,6 +156,36 @@
                             Content="Show Dialog"
                             HorizontalAlignment="Center" />
                     </StackPanel>
+                </controls:ControlBlock>
+                <controls:ControlBlock CSharp="{Binding InlineDialogCode}" Title="In-Content Dialog">
+                    <Border
+                        Background="{DynamicResource CardBackgroundColor}"
+                        BorderBrush="{DynamicResource BorderColor}"
+                        BorderThickness="1"
+                        ClipToBounds="True"
+                        CornerRadius="{DynamicResource LgCornerRadius}"
+                        Height="280">
+                        <Panel>
+                            <StackPanel
+                                Spacing="12"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    Classes="Small"
+                                    HorizontalAlignment="Center"
+                                    MaxWidth="360"
+                                    Text="DialogHost lives inside this card. The overlay scopes to this region, leaving the page title and sidebar interactive."
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                                <Button
+                                    Classes="Outline"
+                                    Command="{Binding ShowInlineDialogCommand}"
+                                    Content="Show Dialog"
+                                    HorizontalAlignment="Center" />
+                            </StackPanel>
+                            <shadui:DialogHost OverlayOpacity="0.30" Manager="{Binding InlineDialogManager}" />
+                        </Panel>
+                    </Border>
                 </controls:ControlBlock>
             </StackPanel>
         </ScrollViewer>

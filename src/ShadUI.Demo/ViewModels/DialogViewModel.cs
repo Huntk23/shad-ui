@@ -28,6 +28,7 @@ public sealed partial class DialogViewModel : ViewModelBase, INavigable
         AlertDialogCode = WrapCode(path.ExtractByLineRange(62, 78).CleanIndentation());
         DestructiveAlertDialogCode = WrapCode(path.ExtractByLineRange(83, 100).CleanIndentation());
         CustomDialogCode = WrapCode(path.ExtractByLineRange(105, 122).CleanIndentation());
+        InlineDialogCode = WrapCode(path.ExtractByLineRange(129, 140).CleanIndentation());
     }
 
     [RelayCommand]
@@ -118,6 +119,24 @@ public sealed partial class DialogViewModel : ViewModelBase, INavigable
                     .WithContent("Please sign in to continue.")
                     .DismissOnClick()
                     .ShowWarning())
+            .Show();
+    }
+
+    public DialogManager InlineDialogManager { get; } = new();
+
+    [ObservableProperty]
+    private string _inlineDialogCode = string.Empty;
+
+    [RelayCommand]
+    private void ShowInlineDialog()
+    {
+        InlineDialogManager
+            .CreateDialog("In-content dialog",
+                "This dialog is hosted inside the card. The page title and sidebar stay interactive while only the card dims.")
+            .WithPrimaryButton("OK", () => { })
+            .WithCancelButton("Cancel")
+            .WithMaxWidth(360)
+            .Dismissible()
             .Show();
     }
 }
