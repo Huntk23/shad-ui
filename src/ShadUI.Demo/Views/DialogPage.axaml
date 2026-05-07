@@ -58,14 +58,12 @@
                     <Separator Margin="0" />
                     <TextBlock
                         Classes="Small"
-                        Text="Make sure to add DialogHost as the top most element in a window and supply its DialogManager and Window owner"
+                        Text="Add DialogHost to the Window's Hosts collection and supply its DialogManager"
                         TextWrapping="Wrap" />
                     <controls:CodeTextBlock Language="xaml">
                         <Run Text="&lt;controls:Window.Hosts&gt;" />
                         <LineBreak />
-                        <Run Text="    &lt;dialogs:DialogHost Manager=&quot;{Binding DialogManager}&quot;" />
-                        <LineBreak />
-                        <Run Text="                        Owner=&quot;{Binding RelativeSource={RelativeSource AncestorType=controls:Window}}&quot; /&gt;" />
+                        <Run Text="    &lt;dialogs:DialogHost Manager=&quot;{Binding DialogManager}&quot; /&gt;" />
                         <LineBreak />
                         <Run Text="&lt;/controls:Window.Hosts&gt;" />
                     </controls:CodeTextBlock>

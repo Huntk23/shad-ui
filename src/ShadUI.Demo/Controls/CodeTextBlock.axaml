@@ -9,9 +9,7 @@
             <controls:CodeTextBlock>
                 <Run Text="&lt;controls:Window.Hosts&gt;" />
                 <LineBreak />
-                <Run Text="    &lt;dialogs:DialogHost Manager=&quot;{Binding DialogManager}&quot;" />
-                <LineBreak />
-                <Run Text="                        Owner=&quot;{Binding RelativeSource={RelativeSource AncestorType=controls:Window}}&quot; /&gt;" />
+                <Run Text="    &lt;dialogs:DialogHost Manager=&quot;{Binding DialogManager}&quot; /&gt;" />
                 <LineBreak />
                 <Run Text="&lt;/controls:Window.Hosts&gt;" />
             </controls:CodeTextBlock>
