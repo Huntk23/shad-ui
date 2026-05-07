@@ -35,4 +35,45 @@ public class DialogHostDecouplingTests
 			window.RaiseUnloaded();
 		});
 	}
+
+	[Fact]
+	public void Window_Tracks_DialogHosts_Added_After_Load()
+	{
+		AvaloniaTestFixture.RunOnUIThread(() =>
+		{
+			var window = new TestWindow();
+			window.RaiseLoaded();
+
+			Assert.False(window.HasOpenDialog);
+
+			var host = new DialogHost();
+			window.Hosts.Add(host);
+
+			host.HasOpenDialog = true;
+			Assert.True(window.HasOpenDialog);
+
+			window.RaiseUnloaded();
+		});
+	}
+
+	[Fact]
+	public void Window_Untracks_DialogHosts_Removed_From_Hosts()
+	{
+		AvaloniaTestFixture.RunOnUIThread(() =>
+		{
+			var host = new DialogHost();
+			var window = new TestWindow();
+			window.Hosts.Add(host);
+			window.RaiseLoaded();
+
+			host.HasOpenDialog = true;
+			Assert.True(window.HasOpenDialog);
+
+			window.Hosts.Remove(host);
+			// Aggregator should recompute and drop to false even though host stays open.
+			Assert.False(window.HasOpenDialog);
+
+			window.RaiseUnloaded();
+		});
+	}
 }
