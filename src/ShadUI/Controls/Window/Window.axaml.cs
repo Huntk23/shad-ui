@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Avalonia;
@@ -289,9 +292,33 @@ public class Window : Avalonia.Controls.Window
     {
         base.OnLoaded(e);
 
-        if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop) return;
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            if (desktop.MainWindow is Window window && window != this) Icon ??= window.Icon;
+        }
 
-        if (desktop.MainWindow is Window window && window != this) Icon ??= window.Icon;
+        Hosts.CollectionChanged += OnHostsCollectionChanged;
+        foreach (var host in Hosts.OfType<DialogHost>())
+        {
+            SubscribeToDialogHost(host);
+        }
+        UpdateHasOpenDialog();
+    }
+
+    /// <summary>
+    ///     Called when the window is unloaded.
+    /// </summary>
+    /// <param name="e">The event arguments.</param>
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        base.OnUnloaded(e);
+
+        Hosts.CollectionChanged -= OnHostsCollectionChanged;
+        foreach (var host in _subscribedHosts.ToArray())
+        {
+            UnsubscribeFromDialogHost(host);
+        }
+        UpdateHasOpenDialog();
     }
 
     private WindowState _lastState = WindowState.Normal;
@@ -344,6 +371,7 @@ public class Window : Avalonia.Controls.Window
         }
     }
 
+    private readonly List<DialogHost> _subscribedHosts = new();
     private Button? _maximizeButton;
     private CornerRadius _lastCornerRadius;
     private IntPtr _nsWindowHandle;
@@ -546,6 +574,53 @@ public class Window : Avalonia.Controls.Window
     public void RestoreWindowState()
     {
         WindowState = _lastState == WindowState.FullScreen ? WindowState.Maximized : _lastState;
+    }
+
+    private void OnHostsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.OldItems is not null)
+        {
+            foreach (var item in e.OldItems.OfType<DialogHost>())
+            {
+                UnsubscribeFromDialogHost(item);
+            }
+        }
+
+        if (e.NewItems is not null)
+        {
+            foreach (var item in e.NewItems.OfType<DialogHost>())
+            {
+                SubscribeToDialogHost(item);
+            }
+        }
+
+        UpdateHasOpenDialog();
+    }
+
+    private void SubscribeToDialogHost(DialogHost host)
+    {
+        if (_subscribedHosts.Contains(host)) return;
+        _subscribedHosts.Add(host);
+        host.PropertyChanged += OnDialogHostPropertyChanged;
+    }
+
+    private void UnsubscribeFromDialogHost(DialogHost host)
+    {
+        if (!_subscribedHosts.Remove(host)) return;
+        host.PropertyChanged -= OnDialogHostPropertyChanged;
+    }
+
+    private void OnDialogHostPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        if (e.Property == DialogHost.HasOpenDialogProperty)
+        {
+            UpdateHasOpenDialog();
+        }
+    }
+
+    private void UpdateHasOpenDialog()
+    {
+        HasOpenDialog = _subscribedHosts.Any(h => h.HasOpenDialog);
     }
 
     static Window()
