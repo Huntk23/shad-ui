@@ -19,7 +19,7 @@
                         Opacity="1">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
@@ -30,7 +30,7 @@
                         Opacity="0">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
@@ -43,7 +43,7 @@
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                         <ContentPresenter.Transitions>
                             <Transitions>
-                                <TransformOperationsTransition Duration="0:0:0.10" Property="RenderTransform" />
+                                <TransformOperationsTransition Duration="0:0:0.10" Easing="{StaticResource EaseOut}" Property="RenderTransform" />
                             </Transitions>
                         </ContentPresenter.Transitions>
                     </ContentPresenter>
@@ -60,7 +60,7 @@
             <Setter Property="Opacity" Value="0" />
         </Style>
         <Style Selector="^:pressed /template/ ContentPresenter#ContentPresenter">
-            <Setter Property="RenderTransform" Value="scale(0.95, 0.95)" />
+            <Setter Property="RenderTransform" Value="scale(0.97, 0.97)" />
         </Style>
     </ControlTheme>
     <ControlTheme TargetType="ButtonSpinner" x:Key="{x:Type ButtonSpinner}">
@@ -172,7 +172,7 @@
             <Setter Property="Transitions">
                 <Setter.Value>
                     <Transitions>
-                        <BrushTransition Duration="0:0:0.20" Property="BorderBrush" />
+                        <BrushTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="BorderBrush" />
                     </Transitions>
                 </Setter.Value>
             </Setter>
@@ -182,7 +182,7 @@
             <Setter Property="Transitions">
                 <Setter.Value>
                     <Transitions>
-                        <BrushTransition Duration="0:0:0.20" Property="BorderBrush" />
+                        <BrushTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="BorderBrush" />
                     </Transitions>
                 </Setter.Value>
             </Setter>

@@ -42,7 +42,7 @@
                 <Panel Name="RootPanel">
                     <Panel.Transitions>
                         <Transitions>
-                            <TransformOperationsTransition Duration="0:0:0.10" Property="RenderTransform" />
+                            <TransformOperationsTransition Duration="0:0:0.10" Easing="{StaticResource EaseOut}" Property="RenderTransform" />
                         </Transitions>
                     </Panel.Transitions>
                     <Border
@@ -54,7 +54,7 @@
                         Opacity="1">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
@@ -65,7 +65,7 @@
                         Opacity="0">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
@@ -76,7 +76,7 @@
                         Opacity="0">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
@@ -99,7 +99,7 @@
             </ControlTemplate>
         </Setter>
         <Style Selector="^:pressed /template/ Panel#RootPanel">
-            <Setter Property="RenderTransform" Value="scale(0.95, 0.95)" />
+            <Setter Property="RenderTransform" Value="scale(0.97, 0.97)" />
         </Style>
 
         <Style Selector="^:checked">
@@ -197,7 +197,7 @@
                         x:Name="BorderRectangle">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
