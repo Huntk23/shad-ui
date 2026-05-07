@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -17,6 +18,9 @@ namespace ShadUI.Demo.Controls;
 
 public class CodeTextBlock : TemplatedControl, IDisposable
 {
+    private static readonly Lazy<RegistryOptions> SharedRegistryOptions =
+        new(() => new RegistryOptions(ThemeName.DarkPlus), LazyThreadSafetyMode.ExecutionAndPublication);
+
     private readonly DispatcherTimer _timer;
     private InlineCollection? _inlines = new();
     private Button? _clipboardButton;
@@ -78,14 +82,6 @@ public class CodeTextBlock : TemplatedControl, IDisposable
         _editor = e.NameScope.Find<TextEditor>("PART_Editor");
         if (_editor != null)
         {
-            var opts = new RegistryOptions(ThemeName.DarkPlus);
-            var installation = _editor.InstallTextMate(opts);
-
-            // Get language ID based on the specified language
-            var languageId = opts.GetLanguageByExtension($".{Language.ToLower()}").Id;
-            installation.SetGrammar(opts.GetScopeByLanguageId(languageId));
-
-            // Configure editor for selection but readonly
             _editor.IsReadOnly = true;
             _editor.ShowLineNumbers = true;
             _editor.TextArea.SelectionBrush = new SolidColorBrush(Color.FromRgb(51, 153, 255));
@@ -93,18 +89,29 @@ public class CodeTextBlock : TemplatedControl, IDisposable
             _editor.Options.EnableHyperlinks = false;
             _editor.Options.EnableEmailHyperlinks = false;
 
-            // Set initial text if available
-
             if (Inlines?.Count > 0)
             {
                 _editor.Text = Inlines.Text;
             }
             else if (!string.IsNullOrEmpty(Text)) _editor.Text = Text;
+
+            var editor = _editor;
+            var language = Language;
+            Dispatcher.UIThread.Post(() => InstallSyntaxHighlighting(editor, language), DispatcherPriority.Background);
         }
 
         if (_clipboardIcon != null) _originalIconData = _clipboardIcon.Data;
 
         if (_clipboardButton != null) _clipboardButton.Click += OnClipboardButtonClick;
+    }
+
+    private static void InstallSyntaxHighlighting(TextEditor editor, string language)
+    {
+        var opts = SharedRegistryOptions.Value;
+        var installation = editor.InstallTextMate(opts);
+        var lang = opts.GetLanguageByExtension($".{language.ToLowerInvariant()}");
+        if (lang is null) return;
+        installation.SetGrammar(opts.GetScopeByLanguageId(lang.Id));
     }
 
     private async void OnClipboardButtonClick(object? sender, RoutedEventArgs e)
