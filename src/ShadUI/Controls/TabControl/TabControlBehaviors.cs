@@ -23,7 +23,19 @@ public static class TabControlBehaviors
 		AvaloniaProperty.RegisterAttached<TabControl, bool>(
 			"UseSlidingPill", typeof(TabControlBehaviors));
 
-	private static readonly Thickness PillInset = new(2, 0, 2, 4);
+	/// <summary>Inset applied to the selected tab's bounds when computing the pill's rect.</summary>
+	public static readonly AttachedProperty<Thickness> PillInsetProperty =
+		AvaloniaProperty.RegisterAttached<TabControl, Thickness>(
+			"PillInset", typeof(TabControlBehaviors), new Thickness(2, 0, 2, 4));
+
+	/// <summary>
+	///     Optional fixed pill height. When set, the pill is anchored to the bottom of the inset
+	///     area (useful for thin underline indicators). NaN means use the inset-based height.
+	/// </summary>
+	public static readonly AttachedProperty<double> PillHeightProperty =
+		AvaloniaProperty.RegisterAttached<TabControl, double>(
+			"PillHeight", typeof(TabControlBehaviors), double.NaN);
+
 	private static readonly TimeSpan StretchHold = TimeSpan.FromMilliseconds(140);
 
 	private static readonly ConditionalWeakTable<TabControl, PillState> States = new();
@@ -39,6 +51,20 @@ public static class TabControlBehaviors
 	/// <summary>Sets the value of <see cref="UseSlidingPillProperty" /> on the given TabControl.</summary>
 	public static void SetUseSlidingPill(TabControl element, bool value) =>
 		element.SetValue(UseSlidingPillProperty, value);
+
+	/// <summary>Reads the value of <see cref="PillInsetProperty" /> on the given TabControl.</summary>
+	public static Thickness GetPillInset(TabControl element) => element.GetValue(PillInsetProperty);
+
+	/// <summary>Sets the value of <see cref="PillInsetProperty" /> on the given TabControl.</summary>
+	public static void SetPillInset(TabControl element, Thickness value) =>
+		element.SetValue(PillInsetProperty, value);
+
+	/// <summary>Reads the value of <see cref="PillHeightProperty" /> on the given TabControl.</summary>
+	public static double GetPillHeight(TabControl element) => element.GetValue(PillHeightProperty);
+
+	/// <summary>Sets the value of <see cref="PillHeightProperty" /> on the given TabControl.</summary>
+	public static void SetPillHeight(TabControl element, double value) =>
+		element.SetValue(PillHeightProperty, value);
 
 	private static void OnUseSlidingPillChanged(TabControl tc, AvaloniaPropertyChangedEventArgs e)
 	{
@@ -181,10 +207,26 @@ public static class TabControlBehaviors
 		var topLeft = container.TranslatePoint(default, state.ItemsPresenter);
 		if (topLeft is null) return null;
 
-		var x = topLeft.Value.X + PillInset.Left;
-		var y = topLeft.Value.Y + PillInset.Top;
-		var w = Math.Max(0, container.Bounds.Width - PillInset.Left - PillInset.Right);
-		var h = Math.Max(0, container.Bounds.Height - PillInset.Top - PillInset.Bottom);
+		var inset = GetPillInset(tc);
+		var fixedHeight = GetPillHeight(tc);
+
+		var x = topLeft.Value.X + inset.Left;
+		var w = Math.Max(0, container.Bounds.Width - inset.Left - inset.Right);
+		var innerY = topLeft.Value.Y + inset.Top;
+		var innerH = Math.Max(0, container.Bounds.Height - inset.Top - inset.Bottom);
+
+		double y, h;
+		if (double.IsNaN(fixedHeight))
+		{
+			y = innerY;
+			h = innerH;
+		}
+		else
+		{
+			h = fixedHeight;
+			y = innerY + Math.Max(0, innerH - h);
+		}
+
 		return new Rect(x, y, w, h);
 	}
 

@@ -44,46 +44,27 @@
                     CornerRadius="{TemplateBinding CornerRadius}"
                     Name="PART_LayoutRoot"
                     Padding="{TemplateBinding Padding}">
-                    <StackPanel>
-                        <ContentPresenter
-                            Content="{TemplateBinding Header}"
-                            ContentTemplate="{TemplateBinding HeaderTemplate}"
-                            Foreground="{TemplateBinding Foreground}"
-                            HorizontalAlignment="Center"
-                            HorizontalContentAlignment="Center"
-                            Name="PART_HeaderPresenter"
-                            Padding="16,8"
-                            TextBlock.FontSize="{TemplateBinding FontSize}"
-                            TextBlock.FontWeight="{TemplateBinding FontWeight}"
-                            TextBlock.Foreground="{TemplateBinding Foreground}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <ContentPresenter.Transitions>
-                                <Transitions>
-                                    <BrushTransition Duration="0:0:0.1" Property="Foreground" />
-                                </Transitions>
-                            </ContentPresenter.Transitions>
-                        </ContentPresenter>
-                        <Border
-                            Background="{DynamicResource PrimaryColor}"
-                            CornerRadius="{DynamicResource FullCornerRadius}"
-                            Height="2"
-                            Margin="16,0"
-                            Name="PART_Underline"
-                            Opacity="0">
-                            <Border.Transitions>
-                                <Transitions>
-                                    <DoubleTransition Duration="0:0:0.3" Property="Opacity" />
-                                </Transitions>
-                            </Border.Transitions>
-                        </Border>
-                    </StackPanel>
+                    <ContentPresenter
+                        Content="{TemplateBinding Header}"
+                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                        Foreground="{TemplateBinding Foreground}"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        Name="PART_HeaderPresenter"
+                        Padding="16,8,16,10"
+                        TextBlock.FontSize="{TemplateBinding FontSize}"
+                        TextBlock.FontWeight="{TemplateBinding FontWeight}"
+                        TextBlock.Foreground="{TemplateBinding Foreground}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <ContentPresenter.Transitions>
+                            <Transitions>
+                                <BrushTransition Duration="0:0:0.1" Property="Foreground" />
+                            </Transitions>
+                        </ContentPresenter.Transitions>
+                    </ContentPresenter>
                 </Border>
             </ControlTemplate>
         </Setter>
-
-        <Style Selector="^:selected /template/ Border#PART_Underline">
-            <Setter Property="Opacity" Value="1" />
-        </Style>
 
         <Style Selector="^:pointerover">
             <Setter Property="Cursor" Value="Hand" />
@@ -98,14 +79,9 @@
             <Setter Property="Foreground" Value="{DynamicResource MutedColor}" />
         </Style>
 
-        <Style Selector="^[TabStripPlacement=Bottom]">
-            <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-                <Setter Property="DockPanel.Dock" Value="Bottom" />
-                <Setter Property="Margin" Value="0,0,0,0" />
-            </Style>
-            <Style Selector="^ Border#PART_Underline">
-                <Setter Property="Margin" Value="10,0,10,0" />
-            </Style>
+        <Style Selector="^[TabStripPlacement=Bottom] /template/ ContentPresenter#PART_HeaderPresenter">
+            <Setter Property="DockPanel.Dock" Value="Bottom" />
+            <Setter Property="Margin" Value="0,0,0,0" />
         </Style>
     </ControlTheme>
     <ControlTheme TargetType="TabControl" x:Key="TabControlTheme">
@@ -113,6 +89,9 @@
         <Setter Property="Padding" Value="0,16" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundColor}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
+        <Setter Property="(shadui:TabControlBehaviors.UseSlidingPill)" Value="True" />
+        <Setter Property="(shadui:TabControlBehaviors.PillInset)" Value="16,0,16,0" />
+        <Setter Property="(shadui:TabControlBehaviors.PillHeight)" Value="2" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border
@@ -124,7 +103,30 @@
                     VerticalAlignment="{TemplateBinding VerticalAlignment}">
                     <DockPanel>
                         <LayoutTransformControl DockPanel.Dock="{TemplateBinding TabStripPlacement}" Name="PART_LayoutTransform">
-                            <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" Name="PART_ItemsPresenter" />
+                            <Panel>
+                                <Canvas IsHitTestVisible="False">
+                                    <Border
+                                        Background="{DynamicResource PrimaryColor}"
+                                        Canvas.Left="0"
+                                        Canvas.Top="0"
+                                        CornerRadius="{DynamicResource FullCornerRadius}"
+                                        Height="0"
+                                        Opacity="0"
+                                        Width="0"
+                                        x:Name="PART_SelectionPill">
+                                        <Border.Transitions>
+                                            <Transitions>
+                                                <DoubleTransition Duration="0:0:0.30" Easing="{StaticResource EaseOut}" Property="(Canvas.Left)" />
+                                                <DoubleTransition Duration="0:0:0.30" Easing="{StaticResource EaseOut}" Property="(Canvas.Top)" />
+                                                <DoubleTransition Duration="0:0:0.30" Easing="{StaticResource EaseOut}" Property="Width" />
+                                                <DoubleTransition Duration="0:0:0.30" Easing="{StaticResource EaseOut}" Property="Height" />
+                                                <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
+                                            </Transitions>
+                                        </Border.Transitions>
+                                    </Border>
+                                </Canvas>
+                                <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" Name="PART_ItemsPresenter" />
+                            </Panel>
                         </LayoutTransformControl>
                         <ContentPresenter
                             Content="{TemplateBinding SelectedContent}"
