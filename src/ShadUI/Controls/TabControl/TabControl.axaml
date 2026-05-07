@@ -1,4 +1,7 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:shadui="clr-namespace:ShadUI"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Padding="8" Width="400">
             <StackPanel Spacing="8">
@@ -57,6 +60,7 @@
     <ControlTheme TargetType="TabControl" x:Key="TabControlTheme">
         <Setter Property="Foreground" Value="{DynamicResource ForegroundColor}" />
         <Setter Property="Background" Value="{DynamicResource BackgroundColor}" />
+        <Setter Property="(shadui:TabControlBehaviors.UseSlidingPill)" Value="True" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -83,7 +87,31 @@
                                 CornerRadius="{DynamicResource LgCornerRadius}"
                                 HorizontalAlignment="Left"
                                 Padding="2,4,2,0">
-                                <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" Name="PART_ItemsPresenter" />
+                                <Panel>
+                                    <Canvas IsHitTestVisible="False">
+                                        <Border
+                                            Background="{DynamicResource TabItemSelectedColor}"
+                                            BoxShadow="{DynamicResource Shadow}"
+                                            Canvas.Left="0"
+                                            Canvas.Top="0"
+                                            CornerRadius="{DynamicResource MdCornerRadius}"
+                                            Height="0"
+                                            Opacity="0"
+                                            Width="0"
+                                            x:Name="PART_SelectionPill">
+                                            <Border.Transitions>
+                                                <Transitions>
+                                                    <DoubleTransition Duration="0:0:0.30" Easing="{StaticResource EaseOut}" Property="(Canvas.Left)" />
+                                                    <DoubleTransition Duration="0:0:0.30" Easing="{StaticResource EaseOut}" Property="(Canvas.Top)" />
+                                                    <DoubleTransition Duration="0:0:0.30" Easing="{StaticResource EaseOut}" Property="Width" />
+                                                    <DoubleTransition Duration="0:0:0.30" Easing="{StaticResource EaseOut}" Property="Height" />
+                                                    <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
+                                                </Transitions>
+                                            </Border.Transitions>
+                                        </Border>
+                                    </Canvas>
+                                    <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" Name="PART_ItemsPresenter" />
+                                </Panel>
                             </Border>
                         </LayoutTransformControl>
                         <ContentPresenter
