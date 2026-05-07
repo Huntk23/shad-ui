@@ -10,6 +10,10 @@
         <Platforms>AnyCPU;x64</Platforms>
     </PropertyGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="ShadUI.Tests" />
+    </ItemGroup>
+
     <PropertyGroup>
         <IsPackable>true</IsPackable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
