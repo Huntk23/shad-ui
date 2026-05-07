@@ -47,23 +47,19 @@ public static class BasicConverters
     public static AccentColorConverter AccentColorConverter { get; } = new();
 
     /// <summary>
-    ///     Converts a <see cref="ColorPicker" />'s selected color to a string representation.
+    ///     Converts a <see cref="Color" /> to its hex string representation.
     /// </summary>
     public static readonly IValueConverter ToColorStringConverter =
-        new FuncValueConverter<ColorPicker, string, string>((
-            picker, param) =>
+        new FuncValueConverter<Color, string, string>((color, param) =>
         {
-            if (picker is null) return "";
-
             var toUpper = param is "ToUpper";
-
-            var color = new SolidColorBrush(picker.HsvColor.ToRgb()).ToString();
-
-            if (picker is { IsAlphaEnabled: true, IsAlphaVisible: true }) return toUpper ? color.ToUpper() : color;
-            
-            var rgb = picker.HsvColor.ToRgb();
-            color = $"#{rgb.R:X2}{rgb.G:X2}{rgb.B:X2}";
-
-            return toUpper ? color.ToUpper() : color;
+            var hex = $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
+            return toUpper ? hex.ToUpper() : hex;
         });
+
+    /// <summary>
+    ///     Converts a <see cref="Color" /> to a solid <see cref="IBrush" />.
+    /// </summary>
+    public static readonly IValueConverter ToColorBrushConverter =
+        new FuncValueConverter<Color, IBrush?>(color => new SolidColorBrush(color));
 }

@@ -53,11 +53,11 @@
                                 </Grid.ColumnDefinitions>
                                 <primitives:ColorSlider
                                     AutomationProperties.Name="Third Component"
-                                    ColorComponent="{Binding ThirdComponent, ElementName=ColorSpectrum}"
+                                    ColorComponent="{Binding #ColorSpectrum.ThirdComponent}"
                                     ColorModel="Hsva"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
-                                    HsvColor="{Binding HsvColor, ElementName=ColorSpectrum}"
+                                    HsvColor="{Binding #ColorSpectrum.HsvColor}"
                                     IsAlphaVisible="False"
                                     IsPerceptive="True"
                                     IsVisible="{TemplateBinding IsColorSpectrumSliderVisible}"
@@ -85,7 +85,7 @@
                                     ColorModel="Hsva"
                                     Grid.Column="2"
                                     HorizontalAlignment="Center"
-                                    HsvColor="{Binding HsvColor, ElementName=ColorSpectrum}"
+                                    HsvColor="{Binding #ColorSpectrum.HsvColor}"
                                     IsEnabled="{TemplateBinding IsAlphaEnabled}"
                                     Margin="12,0,0,0"
                                     Name="ColorSpectrumAlphaSlider"
