@@ -258,7 +258,7 @@
             <Setter Property="Transitions">
                 <Setter.Value>
                     <Transitions>
-                        <BrushTransition Duration="0:0:0.20" Property="BorderBrush" />
+                        <BrushTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="BorderBrush" />
                     </Transitions>
                 </Setter.Value>
             </Setter>
@@ -268,7 +268,7 @@
             <Setter Property="Transitions">
                 <Setter.Value>
                     <Transitions>
-                        <BrushTransition Duration="0:0:0.20" Property="BorderBrush" />
+                        <BrushTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="BorderBrush" />
                     </Transitions>
                 </Setter.Value>
             </Setter>

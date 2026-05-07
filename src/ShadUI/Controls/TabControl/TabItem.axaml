@@ -76,7 +76,7 @@
                         x:Name="SelectedBorder">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
@@ -98,7 +98,7 @@
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             <ContentPresenter.Transitions>
                                 <Transitions>
-                                    <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                    <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                                 </Transitions>
                             </ContentPresenter.Transitions>
                         </ContentPresenter>

@@ -25,7 +25,7 @@
                         Width="{TemplateBinding Width}">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.4" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.4" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
@@ -35,7 +35,7 @@
                         VerticalAlignment="Center">
                         <StackPanel.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.4" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.4" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </StackPanel.Transitions>
                         <Viewbox Height="{TemplateBinding LoadingSize}" Width="{TemplateBinding LoadingSize}">

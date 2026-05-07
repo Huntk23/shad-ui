@@ -86,7 +86,10 @@
                                 x:Name="SwitchBackground">
                                 <Border.Transitions>
                                     <Transitions>
-                                        <DoubleTransition Duration="0:0:0.2" Property="Opacity" />
+                                        <DoubleTransition
+                                            Duration="0:0:0.2"
+                                            Easing="{StaticResource EaseOut}"
+                                            Property="Opacity" />
                                     </Transitions>
                                 </Border.Transitions>
                             </Border>

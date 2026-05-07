@@ -44,7 +44,7 @@
                         Opacity="0">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
@@ -58,7 +58,7 @@
                         TextElement.Foreground="{TemplateBinding Foreground}">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                         <ContentPresenter
@@ -199,7 +199,7 @@
         <Style Selector="^:focus /template/ Border#Container">
             <Setter Property="Transitions">
                 <Transitions>
-                    <BrushTransition Duration="0:0:0.20" Property="BorderBrush" />
+                    <BrushTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="BorderBrush" />
                 </Transitions>
             </Setter>
             <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}" />
@@ -212,7 +212,7 @@
         <Style Selector="^:pointerover /template/ Border#Container">
             <Setter Property="Transitions">
                 <Transitions>
-                    <BrushTransition Duration="0:0:0.20" Property="BorderBrush" />
+                    <BrushTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="BorderBrush" />
                 </Transitions>
             </Setter>
             <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}" />

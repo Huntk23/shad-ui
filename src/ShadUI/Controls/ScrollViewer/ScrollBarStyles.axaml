@@ -44,9 +44,9 @@
                                                 Margin="0,10">
                                                 <Border.Transitions>
                                                     <Transitions>
-                                                        <BrushTransition Duration="0:0:0.15" Property="Background" />
-                                                        <DoubleTransition Duration="0:0:0.1" Property="Width" />
-                                                        <ThicknessTransition Duration="0:0:0.1" Property="Margin" />
+                                                        <BrushTransition Duration="0:0:0.15" Easing="{StaticResource EaseOut}" Property="Background" />
+                                                        <DoubleTransition Duration="0:0:0.1" Easing="{StaticResource EaseOut}" Property="Width" />
+                                                        <ThicknessTransition Duration="0:0:0.1" Easing="{StaticResource EaseOut}" Property="Margin" />
                                                     </Transitions>
                                                 </Border.Transitions>
                                             </Border>
@@ -160,9 +160,9 @@
                                                 Margin="10,0">
                                                 <Border.Transitions>
                                                     <Transitions>
-                                                        <BrushTransition Duration="0:0:0.15" Property="Background" />
-                                                        <DoubleTransition Duration="0:0:0.1" Property="Height" />
-                                                        <ThicknessTransition Duration="0:0:0.1" Property="Margin" />
+                                                        <BrushTransition Duration="0:0:0.15" Easing="{StaticResource EaseOut}" Property="Background" />
+                                                        <DoubleTransition Duration="0:0:0.1" Easing="{StaticResource EaseOut}" Property="Height" />
+                                                        <ThicknessTransition Duration="0:0:0.1" Easing="{StaticResource EaseOut}" Property="Margin" />
                                                     </Transitions>
                                                 </Border.Transitions>
                                             </Border>

@@ -17,7 +17,7 @@ is use for x:TypeArguments="system:Double" DO NOT REMOVE -->
                     <Panel Name="InnerPanel">
                         <Panel.Transitions>
                             <Transitions>
-                                <BrushTransition Duration="0:0:0.2" Property="OpacityMask" />
+                                <BrushTransition Duration="0:0:0.2" Easing="{StaticResource EaseOut}" Property="OpacityMask" />
                             </Transitions>
                         </Panel.Transitions>
                         <ScrollContentPresenter
@@ -31,7 +31,7 @@ is use for x:TypeArguments="system:Double" DO NOT REMOVE -->
                             VerticalSnapPointsType="{TemplateBinding VerticalSnapPointsType}">
                             <ScrollContentPresenter.Transitions>
                                 <Transitions>
-                                    <BrushTransition Duration="0:0:0.2" Property="OpacityMask" />
+                                    <BrushTransition Duration="0:0:0.2" Easing="{StaticResource EaseOut}" Property="OpacityMask" />
                                 </Transitions>
                             </ScrollContentPresenter.Transitions>
                             <ScrollContentPresenter.GestureRecognizers>

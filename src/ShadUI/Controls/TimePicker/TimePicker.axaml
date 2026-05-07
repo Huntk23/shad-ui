@@ -88,7 +88,7 @@
                                 Opacity="0">
                                 <Border.Transitions>
                                     <Transitions>
-                                        <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                        <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                                     </Transitions>
                                 </Border.Transitions>
                             </Border>
@@ -243,7 +243,7 @@
         <Style Selector="^:pointerover">
             <Setter Property="Transitions">
                 <Transitions>
-                    <BrushTransition Duration="0:0:0.20" Property="BorderBrush" />
+                    <BrushTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="BorderBrush" />
                 </Transitions>
             </Setter>
             <Setter Property="BorderBrush" Value="{DynamicResource OutlineColor}" />
@@ -305,7 +305,7 @@
         <Style Selector="^:pointerover:not(:selected)">
             <Setter Property="Transitions">
                 <Transitions>
-                    <BrushTransition Duration="0:0:0.2" Property="Background" />
+                    <BrushTransition Duration="0:0:0.2" Easing="{StaticResource EaseOut}" Property="Background" />
                 </Transitions>
             </Setter>
             <Setter Property="Background" Value="{DynamicResource GhostColor}" />

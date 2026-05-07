@@ -160,8 +160,8 @@
             <Style Selector="^ /template/ Border#RootBorder">
                 <Setter Property="Transitions">
                     <Transitions>
-                        <BrushTransition Duration="0:0:0.2" Property="Background" />
-                        <BrushTransition Duration="0:0:0.2" Property="BorderBrush" />
+                        <BrushTransition Duration="0:0:0.2" Easing="{StaticResource EaseOut}" Property="Background" />
+                        <BrushTransition Duration="0:0:0.2" Easing="{StaticResource EaseOut}" Property="BorderBrush" />
                     </Transitions>
                 </Setter>
             </Style>
@@ -169,7 +169,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource ForegroundColor}" />
                 <Setter Property="Transitions">
                     <Transitions>
-                        <BrushTransition Duration="0:0:0.3" Property="Foreground" />
+                        <BrushTransition Duration="0:0:0.3" Easing="{StaticResource EaseOut}" Property="Foreground" />
                     </Transitions>
                 </Setter>
             </Style>
@@ -177,7 +177,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource ForegroundColor}" />
                 <Setter Property="Transitions">
                     <Transitions>
-                        <BrushTransition Duration="0:0:0.3" Property="Foreground" />
+                        <BrushTransition Duration="0:0:0.3" Easing="{StaticResource EaseOut}" Property="Foreground" />
                     </Transitions>
                 </Setter>
             </Style>

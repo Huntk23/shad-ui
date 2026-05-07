@@ -74,7 +74,7 @@
                                 VerticalAlignment="Center">
                                 <Path.Transitions>
                                     <Transitions>
-                                        <TransformOperationsTransition Duration="0:0:0.10" Property="RenderTransform" />
+                                        <TransformOperationsTransition Duration="0:0:0.10" Easing="{StaticResource EaseOut}" Property="RenderTransform" />
                                     </Transitions>
                                 </Path.Transitions>
                             </Path>
@@ -216,7 +216,7 @@
                     <Viewbox Name="ExpanderIcon">
                         <Viewbox.Transitions>
                             <Transitions>
-                                <TransformOperationsTransition Duration="0:0:0.10" Property="RenderTransform" />
+                                <TransformOperationsTransition Duration="0:0:0.10" Easing="{StaticResource EaseOut}" Property="RenderTransform" />
                             </Transitions>
                         </Viewbox.Transitions>
                         <Path
