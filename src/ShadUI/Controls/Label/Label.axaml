@@ -22,23 +22,27 @@
         </Setter>
 
         <Style Selector="^.h1">
-            <Setter Property="FontSize" Value="48" />
+            <Setter Property="FontSize" Value="36" />
             <Setter Property="FontWeight" Value="ExtraBold" />
+            <Setter Property="LetterSpacing" Value="-0.9" />
         </Style>
 
         <Style Selector="^.h2">
             <Setter Property="FontSize" Value="30" />
             <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="LetterSpacing" Value="-0.75" />
         </Style>
 
         <Style Selector="^.h3">
             <Setter Property="FontSize" Value="24" />
             <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="LetterSpacing" Value="-0.6" />
         </Style>
 
         <Style Selector="^.h4">
             <Setter Property="FontSize" Value="20" />
             <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="LetterSpacing" Value="-0.5" />
         </Style>
 
         <Style Selector="^.p">
@@ -61,7 +65,7 @@
         </Style>
 
         <Style Selector="^.Caption">
-            <Setter Property="FontSize" Value="12.8" />
+            <Setter Property="FontSize" Value="12" />
             <Setter Property="FontWeight" Value="Medium" />
         </Style>
 

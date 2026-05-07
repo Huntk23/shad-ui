@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTheme TargetType="{x:Type shadui:CardDescription}" x:Key="{x:Type shadui:CardDescription}">
         <Setter Property="TextBlock.Foreground" Value="{DynamicResource MutedColor}" />
-        <Setter Property="TextBlock.FontSize" Value="12.8" />
+        <Setter Property="TextBlock.FontSize" Value="14" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
