@@ -173,27 +173,32 @@ internal class Toast : ContentControl, IDisposable
         _manager?.Dismiss(this);
     }
 
+    private static readonly Easing ShowEasing = new SplineEasing(0.23, 1, 0.32, 1);
+    private static readonly Easing DismissEasing = new SplineEasing(0.23, 1, 0.32, 1);
+
     public void AnimateShow()
     {
+        var duration = TimeSpan.FromMilliseconds(360);
+
         this.Animate(OpacityProperty)
             .From(0d)
             .To(1d)
-            .WithDuration(TimeSpan.FromMilliseconds(500))
-            .WithEasing(new CubicEaseInOut())
+            .WithDuration(duration)
+            .WithEasing(ShowEasing)
             .Start();
 
         this.Animate(MaxHeightProperty)
             .From(0)
             .To(500)
-            .WithDuration(TimeSpan.FromMilliseconds(500))
-            .WithEasing(new CubicEaseInOut())
+            .WithDuration(duration)
+            .WithEasing(ShowEasing)
             .Start();
 
         this.Animate(MarginProperty)
-            .From(new Thickness(0, 10, 0, -10))
+            .From(new Thickness(0, 12, 0, -12))
             .To(new Thickness())
-            .WithDuration(TimeSpan.FromMilliseconds(500))
-            .WithEasing(new CubicEaseInOut())
+            .WithDuration(duration)
+            .WithEasing(ShowEasing)
             .Start();
 
         StartCounter();
@@ -201,18 +206,20 @@ internal class Toast : ContentControl, IDisposable
 
     public void AnimateDismiss()
     {
+        var duration = TimeSpan.FromMilliseconds(220);
+
         this.Animate(OpacityProperty)
             .From(1d)
             .To(0d)
-            .WithDuration(TimeSpan.FromMilliseconds(500))
-            .WithEasing(new CubicEaseInOut())
+            .WithDuration(duration)
+            .WithEasing(DismissEasing)
             .Start();
 
         this.Animate(MarginProperty)
             .From(new Thickness())
             .To(new Thickness(0, 0, 0, -100))
-            .WithDuration(TimeSpan.FromMilliseconds(500))
-            .WithEasing(new CubicEaseInOut())
+            .WithDuration(duration)
+            .WithEasing(DismissEasing)
             .Start();
     }
 

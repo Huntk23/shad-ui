@@ -78,7 +78,7 @@
                                 Width="20">
                                 <Button.Transitions>
                                     <Transitions>
-                                        <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                        <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                                     </Transitions>
                                 </Button.Transitions>
                                 <PathIcon

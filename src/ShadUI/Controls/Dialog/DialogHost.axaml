@@ -15,7 +15,10 @@
                         VerticalAlignment="Stretch">
                         <Border.Transitions>
                             <Transitions>
-                                <DoubleTransition Duration="0:0:0.15" Property="Opacity" />
+                                <DoubleTransition
+                                    Duration="0:0:0.20"
+                                    Easing="{StaticResource EaseOut}"
+                                    Property="Opacity" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
@@ -38,17 +41,14 @@
                         VerticalAlignment="Center">
                         <Border.Transitions>
                             <Transitions>
-                                <ThicknessTransition Duration="0:0:0.15" Property="Margin">
-                                    <ThicknessTransition.Easing>
-                                        <CircularEaseOut />
-                                    </ThicknessTransition.Easing>
-                                </ThicknessTransition>
-                                <DoubleTransition Duration="0:0:0.1" Property="Opacity" />
-                                <TransformOperationsTransition Duration="0:0:0.15" Property="RenderTransform">
-                                    <TransformOperationsTransition.Easing>
-                                        <CircularEaseOut />
-                                    </TransformOperationsTransition.Easing>
-                                </TransformOperationsTransition>
+                                <DoubleTransition
+                                    Duration="0:0:0.18"
+                                    Easing="{StaticResource EaseOut}"
+                                    Property="Opacity" />
+                                <TransformOperationsTransition
+                                    Duration="0:0:0.20"
+                                    Easing="{StaticResource EaseOut}"
+                                    Property="RenderTransform" />
                             </Transitions>
                         </Border.Transitions>
                         <Panel>
@@ -92,10 +92,9 @@
                 <Setter Property="IsHitTestVisible" Value="True" />
             </Style>
             <Style Selector="^/template/ Border#DialogContent">
-                <Setter Property="Margin" Value="0" />
                 <Setter Property="Opacity" Value="1" />
                 <Setter Property="IsHitTestVisible" Value="True" />
-                <Setter Property="RenderTransform" Value="scale(1)" />
+                <Setter Property="RenderTransform" Value="scale(1) translateY(0)" />
             </Style>
         </Style>
         <Style Selector="^[IsDialogOpen=False]">
@@ -119,8 +118,7 @@
             <Style Selector="^/template/ Border#DialogContent">
                 <Setter Property="Opacity" Value="0" />
                 <Setter Property="IsHitTestVisible" Value="False" />
-                <Setter Property="RenderTransform" Value="scale(0.70)" />
-                <Setter Property="Margin" Value="0,50,0,0" />
+                <Setter Property="RenderTransform" Value="scale(0.96) translateY(-12px)" />
             </Style>
             <Style Selector="^/template/ ContentControl#PART_DialogContainer">
                 <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
