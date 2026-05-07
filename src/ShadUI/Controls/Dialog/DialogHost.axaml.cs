@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -24,20 +23,6 @@ public class DialogHost : TemplatedControl, IDisposable
 {
     private bool _disposed;
     private Avalonia.Controls.Window? _ancestorWindow;
-    /// <summary>
-    ///     Defines the <see cref="Owner" /> property.
-    /// </summary>
-    public static readonly StyledProperty<Window?> OwnerProperty =
-        AvaloniaProperty.Register<DialogHost, Window?>(nameof(Owner));
-
-    /// <summary>
-    ///     Gets or sets the owner window of the dialog host.
-    /// </summary>
-    public Window? Owner
-    {
-        get => GetValue(OwnerProperty);
-        set => SetValue(OwnerProperty, value);
-    }
 
     /// <summary>
     ///     Defines the <see cref="Manager" /> property.
@@ -209,23 +194,17 @@ public class DialogHost : TemplatedControl, IDisposable
     {
         base.OnPointerPressed(e);
 
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime
-            {
-                MainWindow: not null
-            } desktop)
-        {
-            desktop.MainWindow.BeginMoveDrag(e);
-        }
+        ResolveOwnerWindow()?.BeginMoveDrag(e);
     }
 
     private void OnMaximizeButtonClicked(object? sender, RoutedEventArgs args)
     {
-        if (Owner is not null && Owner.CanMaximize)
-        {
-            Owner.WindowState = Owner.WindowState == WindowState.Maximized
-                ? WindowState.Normal
-                : WindowState.Maximized;
-        }
+        var window = ResolveOwnerWindow();
+        if (window is null || !window.CanMaximize) return;
+
+        window.WindowState = window.WindowState == WindowState.Maximized
+            ? WindowState.Normal
+            : WindowState.Maximized;
     }
 
     private void CloseDialog()
@@ -236,8 +215,6 @@ public class DialogHost : TemplatedControl, IDisposable
 
         Manager?.RemoveLast();
         Manager?.OpenLast();
-
-        if (Owner is not null) Owner.HasOpenDialog = false;
     }
 
     static DialogHost()
@@ -282,7 +259,7 @@ public class DialogHost : TemplatedControl, IDisposable
 
     private void ManagerOnDialogShown(object? sender, DialogShownEventArgs e)
     {
-        if (Manager is null || Owner is null) return;
+        if (Manager is null) return;
 
         Dialog = e.Control;
         Dismissible = e.Options.Dismissible;
@@ -292,21 +269,19 @@ public class DialogHost : TemplatedControl, IDisposable
 
         IsDialogOpen = true;
         HasOpenDialog = true;
-        Owner.HasOpenDialog = true;
     }
 
     private async void ManagerOnDialogClosed(object? sender, DialogClosedEventArgs e)
     {
         try
         {
-            if (Manager is null || Owner is null) return;
+            if (Manager is null) return;
             if (e.Control != Dialog) return;
 
             IsDialogOpen = false;
             if (e.ReplaceExisting) return;
 
             HasOpenDialog = Manager.Dialogs.Count > 0;
-            Owner.HasOpenDialog = Manager.Dialogs.Count > 0;
 
             await Task.Delay(200); // Allow animations to complete
             if (!HasOpenDialog) Dialog = null;
