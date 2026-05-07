@@ -76,4 +76,11 @@ public class DialogHostDecouplingTests
 			window.RaiseUnloaded();
 		});
 	}
+
+	[Fact]
+	public void DialogHost_Has_No_Owner_Property()
+	{
+		var hasOwner = typeof(DialogHost).GetProperty("Owner") is not null;
+		Assert.False(hasOwner, "DialogHost.Owner must remain removed (decoupling guard).");
+	}
 }
