@@ -16,16 +16,21 @@ public sealed partial class DashboardViewModel : ViewModelBase, INavigable
     public ThemeWatcher ThemeWatcher { get; }
 
     [ObservableProperty]
-    private static SolidColorPaint _tooltipTextPaint = new(SKColors.Black);
+    private SolidColorPaint _tooltipTextPaint = new(SKColors.Black);
+
+    [ObservableProperty]
+    private SolidColorPaint _tooltipBackgroundPaint = new(SKColors.White);
 
     public DashboardViewModel(PageManager pageManager, ThemeWatcher themeWatcher)
     {
         _pageManager = pageManager;
         ThemeWatcher = themeWatcher;
+        UpdateTooltipPaints(ThemeWatcher.ThemeColors);
         ThemeWatcher.ThemeChanged += (_, colors) =>
         {
             UpdateAxesLabelPaints(colors);
             UpdateSeriesFill(colors.PrimaryColor);
+            UpdateTooltipPaints(colors);
         };
 
         XAxes =
@@ -74,6 +79,23 @@ public sealed partial class DashboardViewModel : ViewModelBase, INavigable
 
         XAxes[0].LabelsPaint = new SolidColorPaint(foreground);
         YAxes[0].LabelsPaint = new SolidColorPaint(foreground);
+    }
+
+    private void UpdateTooltipPaints(ThemeColors colors)
+    {
+        var text = new SKColor(
+            colors.PrimaryForegroundColor.R,
+            colors.PrimaryForegroundColor.G,
+            colors.PrimaryForegroundColor.B,
+            colors.PrimaryForegroundColor.A);
+        var background = new SKColor(
+            colors.PrimaryColor.R,
+            colors.PrimaryColor.G,
+            colors.PrimaryColor.B,
+            colors.PrimaryColor.A);
+
+        TooltipTextPaint = new SolidColorPaint(text);
+        TooltipBackgroundPaint = new SolidColorPaint(background);
     }
 
     public ISeries[] Series { get; set; } =
