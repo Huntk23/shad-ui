@@ -182,7 +182,7 @@
                                 Opacity="0">
                                 <Border.Transitions>
                                     <Transitions>
-                                        <DoubleTransition Duration="0:0:0.20" Property="Opacity" />
+                                        <DoubleTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="Opacity" />
                                     </Transitions>
                                 </Border.Transitions>
                             </Border>
@@ -254,12 +254,12 @@
             <Style Selector="^ /template/ LayoutTransformControl#PART_LayoutTransform">
                 <Style.Animations>
                     <Animation
-                        Duration="0:0:0.15"
-                        Easing="SineEaseInOut"
+                        Duration="0:0:0.18"
+                        Easing="{StaticResource EaseOut}"
                         FillMode="Forward">
                         <KeyFrame Cue="0%">
-                            <Setter Property="ScaleTransform.ScaleY" Value="0.9" />
-                            <Setter Property="ScaleTransform.ScaleX" Value="0.9" />
+                            <Setter Property="ScaleTransform.ScaleY" Value="0.97" />
+                            <Setter Property="ScaleTransform.ScaleX" Value="0.97" />
                             <Setter Property="Opacity" Value="0" />
                         </KeyFrame>
                         <KeyFrame Cue="100%">
@@ -278,7 +278,7 @@
             <Setter Property="Transitions">
                 <Setter.Value>
                     <Transitions>
-                        <BrushTransition Duration="0:0:0.20" Property="BorderBrush" />
+                        <BrushTransition Duration="0:0:0.20" Easing="{StaticResource EaseOut}" Property="BorderBrush" />
                     </Transitions>
                 </Setter.Value>
             </Setter>
