@@ -7,6 +7,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Reactive;
 using Avalonia.VisualTree;
 
@@ -23,6 +24,8 @@ public class DialogHost : TemplatedControl, IDisposable
 {
     private bool _disposed;
     private Avalonia.Controls.Window? _ancestorWindow;
+    private Border? _overlayBackground;
+    private Border? _observedContainer;
 
     /// <summary>
     ///     Defines the <see cref="Manager" /> property.
@@ -37,6 +40,37 @@ public class DialogHost : TemplatedControl, IDisposable
     {
         get => GetValue(ManagerProperty);
         set => SetValue(ManagerProperty, value);
+    }
+
+    /// <summary>
+    ///     Defines the <see cref="OverlayBrush" /> property.
+    /// </summary>
+    public static readonly StyledProperty<IBrush?> OverlayBrushProperty =
+        AvaloniaProperty.Register<DialogHost, IBrush?>(nameof(OverlayBrush));
+
+    /// <summary>
+    ///     Gets or sets the brush used to dim the host when a dialog is open.
+    ///     Defaults to the <c>DialogOverlayColor</c> theme resource.
+    /// </summary>
+    public IBrush? OverlayBrush
+    {
+        get => GetValue(OverlayBrushProperty);
+        set => SetValue(OverlayBrushProperty, value);
+    }
+
+    /// <summary>
+    ///     Defines the <see cref="OverlayOpacity" /> property.
+    /// </summary>
+    public static readonly StyledProperty<double> OverlayOpacityProperty =
+        AvaloniaProperty.Register<DialogHost, double>(nameof(OverlayOpacity), 0.60);
+
+    /// <summary>
+    ///     Gets or sets the opacity of the dim overlay when a dialog is open. Range 0-1; default 0.60.
+    /// </summary>
+    public double OverlayOpacity
+    {
+        get => GetValue(OverlayOpacityProperty);
+        set => SetValue(OverlayOpacityProperty, value);
     }
 
     /// <summary>
@@ -151,6 +185,7 @@ public class DialogHost : TemplatedControl, IDisposable
     {
         base.OnAttachedToVisualTree(e);
         _ancestorWindow = this.FindAncestorOfType<Avalonia.Controls.Window>();
+        AttachContainerObserver();
     }
 
     /// <inheritdoc />
@@ -158,10 +193,56 @@ public class DialogHost : TemplatedControl, IDisposable
     {
         base.OnDetachedFromVisualTree(e);
         _ancestorWindow = null;
+        DetachContainerObserver();
     }
 
     private Avalonia.Controls.Window? ResolveOwnerWindow()
         => _ancestorWindow ??= this.FindAncestorOfType<Avalonia.Controls.Window>();
+
+    private void AttachContainerObserver()
+    {
+        DetachContainerObserver();
+        _observedContainer = FindRoundedAncestorBorder();
+        if (_observedContainer is not null)
+        {
+            _observedContainer.PropertyChanged += OnContainerPropertyChanged;
+        }
+        ApplyContainerCornerRadius();
+    }
+
+    private Border? FindRoundedAncestorBorder()
+    {
+        var current = this.GetVisualParent();
+        while (current is not null)
+        {
+            if (current is Border border && border.ClipToBounds)
+            {
+                return border;
+            }
+            current = current.GetVisualParent();
+        }
+        return null;
+    }
+
+    private void DetachContainerObserver()
+    {
+        if (_observedContainer is null) return;
+        _observedContainer.PropertyChanged -= OnContainerPropertyChanged;
+        _observedContainer = null;
+    }
+
+    private void OnContainerPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        if (e.Property == Border.CornerRadiusProperty)
+        {
+            ApplyContainerCornerRadius();
+        }
+    }
+
+    private void ApplyContainerCornerRadius()
+    {
+        _overlayBackground?.CornerRadius = _observedContainer?.CornerRadius ?? default;
+    }
 
     /// <summary>
     ///     Called when the control template is applied to set up event handlers and animations.
@@ -172,10 +253,12 @@ public class DialogHost : TemplatedControl, IDisposable
         base.OnApplyTemplate(e);
         if (e.NameScope.Find<Border>("PART_DialogBackground") is { } background)
         {
+            _overlayBackground = background;
             background.PointerPressed += (_, _) =>
             {
                 if (CanDismissWithBackgroundClick) CloseDialog();
             };
+            ApplyContainerCornerRadius();
         }
 
         if (e.NameScope.Find<Border>("PART_TitleBar") is { } titleBar)

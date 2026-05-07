@@ -4,11 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTheme TargetType="shadui:DialogHost" x:Key="DialogHostTheme">
         <Setter Property="CornerRadius" Value="{DynamicResource XlCornerRadius}" />
+        <Setter Property="OverlayBrush" Value="{DynamicResource DialogOverlayColor}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
                     <Border
-                        Background="{DynamicResource DialogOverlayColor}"
+                        Background="{TemplateBinding OverlayBrush}"
                         HorizontalAlignment="Stretch"
                         Name="PART_DialogBackground"
                         Opacity="0"
@@ -84,7 +85,7 @@
         </Setter>
         <Style Selector="^[IsDialogOpen=True]">
             <Style Selector="^/template/ Border#PART_DialogBackground">
-                <Setter Property="Opacity" Value="0.80" />
+                <Setter Property="Opacity" Value="{TemplateBinding OverlayOpacity}" />
                 <Setter Property="IsHitTestVisible" Value="True" />
             </Style>
             <Style Selector="^/template/ Border#PART_TitleBar">
@@ -100,7 +101,7 @@
         <Style Selector="^[IsDialogOpen=False]">
             <Style Selector="^[HasOpenDialog=True]">
                 <Style Selector="^/template/ Border#PART_DialogBackground">
-                    <Setter Property="Opacity" Value="0.80" />
+                    <Setter Property="Opacity" Value="{TemplateBinding OverlayOpacity}" />
                     <Setter Property="IsHitTestVisible" Value="True" />
                 </Style>
             </Style>
