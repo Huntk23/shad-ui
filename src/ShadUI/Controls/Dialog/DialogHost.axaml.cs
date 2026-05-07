@@ -9,6 +9,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Reactive;
+using Avalonia.VisualTree;
 
 // ReSharper disable once CheckNamespace
 namespace ShadUI;
@@ -22,6 +23,7 @@ namespace ShadUI;
 public class DialogHost : TemplatedControl, IDisposable
 {
     private bool _disposed;
+    private Avalonia.Controls.Window? _ancestorWindow;
     /// <summary>
     ///     Defines the <see cref="Owner" /> property.
     /// </summary>
@@ -156,6 +158,25 @@ public class DialogHost : TemplatedControl, IDisposable
         get => GetValue(CanDismissWithBackgroundClickProperty);
         set => SetValue(CanDismissWithBackgroundClickProperty, value);
     }
+
+    /// <summary>
+    ///     Caches the nearest ancestor Window so drag and maximize work without an explicit Owner.
+    /// </summary>
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+        _ancestorWindow = this.FindAncestorOfType<Avalonia.Controls.Window>();
+    }
+
+    /// <inheritdoc />
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        _ancestorWindow = null;
+    }
+
+    private Avalonia.Controls.Window? ResolveOwnerWindow()
+        => _ancestorWindow ??= this.FindAncestorOfType<Avalonia.Controls.Window>();
 
     /// <summary>
     ///     Called when the control template is applied to set up event handlers and animations.
