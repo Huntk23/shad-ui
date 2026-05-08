@@ -50,7 +50,7 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme TargetType="shadui:Window" x:Key="WindowTheme">
+    <ControlTheme TargetType="shadui:Window" x:Key="{x:Type shadui:Window}">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Background" Value="{DynamicResource WindowBackgroundColor}" />
         <Setter Property="TransparencyLevelHint" Value="Transparent" />
@@ -315,8 +315,4 @@
             <Setter Property="MinHeight" Value="32" />
         </Style>
     </ControlTheme>
-    <ControlTheme
-        BasedOn="{StaticResource WindowTheme}"
-        TargetType="shadui:Window"
-        x:Key="{x:Type shadui:Window}" />
 </ResourceDictionary>
