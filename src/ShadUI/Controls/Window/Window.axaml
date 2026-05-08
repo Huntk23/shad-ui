@@ -54,7 +54,7 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="Background" Value="{DynamicResource WindowBackgroundColor}" />
         <Setter Property="TransparencyLevelHint" Value="Transparent" />
-        <Setter Property="WindowDecorations" Value="{OnPlatform Full, Linux=None, x:TypeArguments=WindowDecorations}" />
+        <Setter Property="WindowDecorations" Value="{OnPlatform BorderOnly, macOS=Full, Linux=None, x:TypeArguments=WindowDecorations}" />
         <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
         <Setter Property="TextElement.Foreground" Value="{DynamicResource ForegroundColor}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -307,6 +307,9 @@
         <Style Selector="^ /template/ Border#PART_TitleBarBackground">
             <Setter Property="MinHeight" Value="32" />
             <Setter Property="Background" Value="{DynamicResource TitleBarBackgroundColor}" />
+        </Style>
+        <Style Selector="^[ShowTitlebarBackground=False] /template/ Border#PART_TitleBarBackground">
+            <Setter Property="Background" Value="Transparent" />
         </Style>
         <Style Selector="^ /template/ StackPanel#ButtonsPanel">
             <Setter Property="MinHeight" Value="32" />
