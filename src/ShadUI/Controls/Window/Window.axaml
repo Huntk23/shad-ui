@@ -85,7 +85,7 @@
                                         <LayoutTransformControl Name="LayoutTransform" RenderTransformOrigin="0%,0%">
                                             <Border ClipToBounds="True" CornerRadius="{TemplateBinding RootCornerRadius, Converter={x:Static shadui:CornerRadiusConverters.TopOnly}}">
                                                 <Panel Margin="0,-1,0,0">
-                                                    <Border IsVisible="{TemplateBinding ShowTitlebarBackground}" Name="PART_TitleBarBackground" />
+                                                    <Border Name="PART_TitleBarBackground" />
                                                     <DockPanel LastChildFill="True">
                                                         <StackPanel
                                                             DockPanel.Dock="Right"
