@@ -468,17 +468,18 @@ public class Window : Avalonia.Controls.Window
         var setter = typeof(Button).GetProperty("IsPointerOver");
         var proc = (IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, ref bool handled) =>
         {
-            if (!_snapLayoutEnabled) return IntPtr.Zero;
-
             switch (msg)
             {
-                case 533:
+                case 0x0083:
+                    handled = true;
+                    break;
+                case 533 when _snapLayoutEnabled:
                     if (!pointerOnMaxButton) break;
                     WindowState = WindowState == WindowState.Maximized
                         ? WindowState.Normal
                         : WindowState.Maximized;
                     break;
-                case 0x0084:
+                case 0x0084 when _snapLayoutEnabled:
                     var point = new PixelPoint(
                         (short)(ToInt32(lParam) & 0xffff),
                         (short)(ToInt32(lParam) >> 16));
