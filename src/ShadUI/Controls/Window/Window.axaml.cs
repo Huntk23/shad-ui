@@ -528,11 +528,22 @@ public class Window : Avalonia.Controls.Window
                 ToggleMaxButtonVisibility(false);
                 _lastCornerRadius = RootCornerRadius;
                 RootCornerRadius = new CornerRadius(0);
+                Margin = new Thickness(-1);
                 break;
             case WindowState.Maximized:
+                ToggleMaxButtonVisibility(CanMaximize);
+                RootCornerRadius = _lastCornerRadius;
+                Margin = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    ? new Thickness(7)
+                    : new Thickness(0);
+                break;
             case WindowState.Normal:
                 ToggleMaxButtonVisibility(CanMaximize);
                 RootCornerRadius = _lastCornerRadius;
+                Margin = new Thickness(0);
+                break;
+            default:
+                Margin = new Thickness(0);
                 break;
         }
     }
